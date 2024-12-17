@@ -157,10 +157,6 @@ export default function Home() {
           </div>
         </form>
       </div>
-
-      <div className="bg-red-500 p-4 m-4">
-        If this is red with padding and margin, Tailwind is working
-      </div>
     </div>
   );
 }
