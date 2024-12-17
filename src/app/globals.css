@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Your custom styles below */
+.markdown-body {
+  @apply text-gray-100;
+}
+
+.markdown-body h1 {
+  @apply text-xl font-bold mb-4;
+}
+
+.markdown-body h2 {
+  @apply text-lg font-bold mb-3;
+}
+
+.markdown-body h3 {
+  @apply text-base font-bold mb-2;
+}
+
+.markdown-body strong {
+  @apply font-bold;
+}
+
+.markdown-body em {
+  @apply italic;
+}
+
+.markdown-body blockquote {
+  @apply border-l-4 border-gray-600 pl-4 my-4 italic;
+}
+
+.markdown-body hr {
+  @apply my-4 border-gray-700;
+}
+
+.markdown-body table {
+  @apply w-full border-collapse my-4;
+}
+
+.markdown-body th,
+.markdown-body td {
+  @apply border border-gray-700 px-4 py-2;
+}
+
+.markdown-body th {
+  @apply bg-gray-900;
+}
