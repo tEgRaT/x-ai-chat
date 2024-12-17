@@ -47,7 +47,7 @@ pnpm install
 
 3. Create a `.env.local` file in the root directory:
 
-```bash
+```
 env
 XAI_API_KEY=your_xai_api_key_here
 BASE_URL=https://api.x.ai/v1
@@ -63,6 +63,7 @@ pnpm dev
 
 ## Project Structure
 
+```
 ai-chatbot/
 ├── src/
 │ ├── app/
@@ -83,6 +84,7 @@ ai-chatbot/
 ├── tailwind.config.js # Tailwind configuration
 ├── postcss.config.js # PostCSS configuration
 └── package.json
+```
 
 ## Features in Detail
 
