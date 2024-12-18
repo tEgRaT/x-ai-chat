@@ -128,7 +128,7 @@ export default function Home() {
           onSubmit={handleSubmit}
           className="max-w-2xl mx-auto flex items-center gap-2"
         >
-          <div className="flex-1 relative">
+          <div className="flex-1 relative flex items-center">
             <textarea
               ref={textareaRef}
               value={input}
@@ -138,14 +138,14 @@ export default function Home() {
               }}
               onKeyDown={handleKeyDown}
               placeholder="Type a message"
-              className="w-full resize-none px-4 py-3 max-h-[150px] rounded-2xl focus:outline-none text-sm bg-gray-700 text-gray-100 placeholder-gray-400 border-none pr-14"
+              className="w-full resize-none px-4 py-2 max-h-[150px] rounded-2xl focus:outline-none text-sm bg-gray-700 text-gray-100 placeholder-gray-400 border-none pr-14 leading-6"
               disabled={isLoading}
               rows={1}
             />
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="absolute right-2 bottom-2 w-9 h-9 flex items-center justify-center bg-emerald-600 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-700 transition-colors"
+              className="absolute right-2 w-9 h-9 flex items-center justify-center bg-emerald-600 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-emerald-700 transition-colors"
             >
               <IoSend
                 className={`text-lg ${isLoading ? 'opacity-0' : 'opacity-100'}`}
