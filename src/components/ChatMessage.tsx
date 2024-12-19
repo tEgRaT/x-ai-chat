@@ -16,6 +16,8 @@ interface CodeProps {
 
 export default function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === 'user';
+  const isThinking =
+    message.role === 'assistant' && message.content === '🤔 Thinking...';
 
   return (
     <div
@@ -40,8 +42,23 @@ export default function ChatMessage({ message }: ChatMessageProps) {
           isUser
             ? 'bg-indigo-600 text-white rounded-2xl rounded-br-none'
             : 'bg-gray-800 text-gray-100 rounded-2xl rounded-bl-none border border-gray-700'
-        }`}
+        } ${isThinking ? 'thinking' : ''}`}
       >
+        {/* Display image if present */}
+        {message.image && (
+          <div className="mb-2">
+            <img
+              src={message.image}
+              alt="Shared image"
+              className="max-w-full h-auto rounded-lg"
+              onError={(e) => {
+                console.error('Image failed to load');
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+          </div>
+        )}
+
         {isUser ? (
           <p className="whitespace-pre-wrap break-words text-sm">
             {message.content}

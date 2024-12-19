@@ -47,3 +47,17 @@
 .markdown-body th {
   @apply bg-gray-900;
 }
+
+@keyframes thinking {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.thinking {
+  animation: thinking 1.5s ease-in-out infinite;
+}
