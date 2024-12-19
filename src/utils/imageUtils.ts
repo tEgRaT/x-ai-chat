@@ -4,14 +4,13 @@ export async function compressImage(base64String: string): Promise<string> {
     img.onload = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d', {
-        alpha: false, // Disable alpha for better JPEG encoding
-        willReadFrequently: true, // Optimize for image processing
+        alpha: false,
+        willReadFrequently: true,
       })!;
 
-      // Calculate new dimensions (max 400px for better API compatibility)
       let width = img.width;
       let height = img.height;
-      const maxSize = 400; // Reduced from 800 to 400
+      const maxSize = 400;
 
       if (width > height && width > maxSize) {
         height = Math.round((height * maxSize) / width);
@@ -24,27 +23,15 @@ export async function compressImage(base64String: string): Promise<string> {
       canvas.width = width;
       canvas.height = height;
 
-      // Use better quality settings
-      ctx.fillStyle = 'white'; // Set white background
+      ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, width, height);
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
 
-      // Draw with better quality
       ctx.drawImage(img, 0, 0, width, height);
 
-      // Use moderate compression
-      const quality = 0.7; // Lower quality for smaller size
+      const quality = 0.7;
       const dataUrl = canvas.toDataURL('image/jpeg', quality);
-
-      console.log('Compressed image details:', {
-        originalWidth: img.width,
-        originalHeight: img.height,
-        newWidth: width,
-        newHeight: height,
-        quality,
-        size: Math.round((dataUrl.length * 0.75) / 1024) + 'KB',
-      });
 
       resolve(dataUrl);
     };

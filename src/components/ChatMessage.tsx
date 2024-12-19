@@ -19,6 +19,20 @@ export default function ChatMessage({ message }: ChatMessageProps) {
   const isThinking =
     message.role === 'assistant' && message.content === '🤔 Thinking...';
 
+  // Helper function to get text content
+  const getTextContent = (content: Message['content']): string => {
+    if (typeof content === 'string') {
+      return content;
+    }
+    if (Array.isArray(content)) {
+      return content
+        .filter((item) => item.type === 'text')
+        .map((item) => item.text)
+        .join('\n');
+    }
+    return '';
+  };
+
   return (
     <div
       className={`flex items-end gap-2 mb-4 ${
@@ -61,7 +75,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
 
         {isUser ? (
           <p className="whitespace-pre-wrap break-words text-sm">
-            {message.content}
+            {getTextContent(message.content)}
           </p>
         ) : (
           <div className="markdown-body text-sm">
@@ -119,7 +133,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
                 ),
               }}
             >
-              {message.content}
+              {getTextContent(message.content)}
             </ReactMarkdown>
           </div>
         )}

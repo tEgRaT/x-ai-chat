@@ -28,17 +28,6 @@ export async function POST(req: Request) {
         ? lastMessage.image.split('base64,')[1]
         : lastMessage.image;
 
-      const sizeInMB = (base64Data.length * 0.75) / (1024 * 1024);
-      console.log('Image details:', {
-        sizeInMB: sizeInMB.toFixed(2) + 'MB',
-        startsWithJPEG: base64Data.startsWith('/9j/'),
-        length: base64Data.length,
-        imageType: lastMessage.image.substring(
-          5,
-          lastMessage.image.indexOf(';')
-        ),
-      });
-
       if (base64Data.length > 50000) {
         throw new Error(
           'Image is too large. Please try a smaller image or lower quality.'
@@ -62,20 +51,20 @@ export async function POST(req: Request) {
       messageContent = lastMessage.content;
     }
 
-    const apiMessages: ChatCompletionMessageParam[] = [
+    const apiMessages = [
       systemMessage,
-      ...messages.slice(0, -1).map((msg) => ({
-        role: msg.role,
-        content: msg.content,
-      })),
-      { role: lastMessage.role, content: messageContent },
+      ...messages.slice(0, -1).map(
+        (msg) =>
+          ({
+            role: msg.role,
+            content: msg.content,
+          } as ChatCompletionMessageParam)
+      ),
+      {
+        role: lastMessage.role,
+        content: messageContent,
+      } as ChatCompletionMessageParam,
     ];
-
-    console.log('Sending request to xAI with message structure:', {
-      model: 'grok-vision-beta',
-      messageCount: apiMessages.length,
-      hasImage: !!lastMessage.image,
-    });
 
     const completion = await openai.chat.completions.create({
       model: 'grok-vision-beta',
@@ -88,25 +77,12 @@ export async function POST(req: Request) {
       throw new Error('Invalid API response format');
     }
 
-    console.log('API Response:', {
-      status: 'success',
-      messageLength: completion.choices[0].message.content.length,
-      systemFingerprint: completion.system_fingerprint,
-    });
-
     return NextResponse.json({
       message: completion.choices[0].message.content,
       system_fingerprint: completion.system_fingerprint,
     });
   } catch (error) {
     console.error('Error in chat API:', error);
-    if (error instanceof Error) {
-      console.error('Error details:', {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-      });
-    }
     return NextResponse.json(
       { error: 'Failed to process chat request' },
       { status: 500 }
